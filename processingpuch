@@ -1,0 +1,44 @@
+import processing.serial.*;// declaracion de libreria 
+Serial myPort; // declaracion puerto 
+String portStream;
+int B1in =0;// estado inicial 
+int B2in =0;//estado inicial 
+void setup(){
+  size(380,200);// tamaño de pantalla
+  background(128,128,128);// fondo de pantalla
+  stroke(160);
+  fill(50);// color
+  String portName = Serial.list()[0];// indicacion de puerto 0
+  myPort=new Serial(this,portName,9600);// puerto
+  myPort.bufferUntil('\n');// espacio 
+}
+void draw(){
+  if (portStream != null){//condicion boton
+    if (portStream.length()==6&& portStream.charAt(0)=='S'&& portStream.charAt(3)=='E'){//condicion boton
+      B1in=int (portStream.substring(1,2));//boton 1
+      B2in=int (portStream.substring(2,3));//boton 2 funcion
+      if (B1in ==1){//condicion
+        fill(0,255,0);//color
+      }
+      else {//condicion
+      fill(255,0,0);//color
+    }
+    ellipse(110,90,150,150);//creacion ellipse
+    if (B2in ==1){//condicion
+      fill(0,255,0);//color
+    }
+    else {//condicion 
+      fill(255,0,0);//color 
+    }
+    ellipse(280,90,150,150);// creacion de ellipse
+    
+    }
+    fill (0,0,0);//color 
+    rect(180,120,30,15);// creacion de rectangulo 
+  }
+}
+
+void serialEvent(Serial myPort){
+  portStream= myPort.readString();
+
+}
